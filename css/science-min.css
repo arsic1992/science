@@ -1,1 +1,111 @@
+<ul class="linklist um-links">
+	<!-- BEGIN switch_user_logged_in -->
+	<li class="um-links__item"><a class="um-links__a" href="{U_SEARCH_NEW}">{L_SEARCH_NEW}</a></li>
+	<li class="um-links__item"><a class="um-links__a" href="{U_SEARCH_SELF}">{L_SEARCH_SELF}</a></li>
+	<!-- END switch_user_logged_in -->
+	<li class="um-links__item"><a class="um-links__a" href="{U_SEARCH_UNANSWERED}">{L_SEARCH_UNANSWERED}</a></li>
+	<!-- BEGIN switch_user_logged_in -->
+	<li class="rightside um-links__item um-links__item--right"><a class="um-links__a" href="{U_MARK_READ}" accesskey="m">{L_MARK_FORUMS_READ}</a></li>
+	<!-- END switch_user_logged_in -->
+</ul>
 
+<div class="um-board">
+<!-- BEGIN catrow -->
+	<!-- BEGIN tablehead -->
+		<div class="forabg um-cat">
+			<div class="inner um-cat__inner"><span class="corners-top um-corner"><span></span></span>
+			<ul class="topiclist um-cat__head">
+				<li class="header um-cat__header">
+					<dl class="icon um-cat__dl">
+						<dd class="dterm um-cat__title"><span class="um-cat__idx"></span><div class="table-title um-cat__name">{catrow.tablehead.L_FORUM}</div><i class="um-cat__line"></i></dd>
+						<div class="um-cat__stats">
+							<dd class="topics um-cat__label">{L_TOPICS}</dd>
+							<dd class="posts um-cat__label">{L_POSTS}</dd>
+						</div>
+						<dd class="lastpost um-cat__label um-cat__last"><span>{L_LASTPOST}</span></dd>
+					</dl>
+				</li>
+			</ul>
+			<ul class="topiclist forums um-forums">
+	<!-- END tablehead -->
+
+	<!-- BEGIN forumrow -->
+				<li class="row um-forum um-lvl-{catrow.forumrow.LEVEL}">
+					<dl class="icon um-forum__dl" style="background:url({catrow.forumrow.FORUM_FOLDER_IMG}) no-repeat scroll {catrow.forumrow.INC_LEVEL} 50%;">
+						<dd class="um-forum__rail"><span class="um-hex"><i class="um-hex__ico"></i></span><b class="um-forum__state"></b></dd>
+						<dd class="dterm um-forum__main">
+							<div class="um-forum__body">
+								<h{catrow.forumrow.LEVEL} class="hierarchy um-forum__heading"><a href="{catrow.forumrow.U_VIEWFORUM}" class="forumtitle um-forum__title">{catrow.forumrow.FORUM_NAME}</a></h{catrow.forumrow.LEVEL}>
+								<div class="um-forum__desc">{catrow.forumrow.FORUM_DESC}</div>
+								<div class="um-forum__mods"><!-- BEGIN switch_moderators_links -->{catrow.forumrow.switch_moderators_links.L_MODERATOR}{catrow.forumrow.switch_moderators_links.MODERATORS}<!-- END switch_moderators_links --></div>
+								<div class="um-forum__subs">{catrow.forumrow.L_LINKS}{catrow.forumrow.LINKS}<strong>{forumrow.L_SUBFORUM_STR}</strong> {forumrow.SUBFORUMS}</div>
+							</div>
+						</dd>
+						<div class="um-forum__stats">
+							<dd class="topics um-stat" style="--um-n:{catrow.forumrow.TOPICS}">{catrow.forumrow.TOPICS} <dfn>{L_TOPICS}</dfn></dd>
+							<dd class="posts um-stat" style="--um-n:{catrow.forumrow.POSTS}">{catrow.forumrow.POSTS} <dfn>{L_POSTS}</dfn></dd>
+						</div>
+						<dd class="lastpost um-last">
+							<!-- BEGIN ads -->
+							<span class="AD_LastPA um-ad">
+								<span class="lastpost-avatar um-av"><img src="{catrow.forumrow.ads.IMG}" alt="{catrow.forumrow.ads.TITLE}" loading="lazy" /></span>
+								<span class="AD_LastInfos um-ad__info">
+									<b><a href="{catrow.forumrow.ads.LINK}">{catrow.forumrow.ads.TITLE}</a></b><br />
+									{catrow.forumrow.ads.DATE}<br />
+									{catrow.forumrow.ads.LOCATION}
+								</span>
+							</span>
+							<!-- END ads -->
+
+							<!-- BEGIN avatar -->
+							<span class="lastpost-avatar um-av">{catrow.forumrow.avatar.LAST_POST_AVATAR}</span>
+							<!-- END avatar -->
+
+							<span class="um-last__text">
+								<!-- BEGIN switch_topic_title -->
+								<a href="{catrow.forumrow.U_LATEST_TOPIC}" title="{catrow.forumrow.LATEST_TOPIC_TITLE}" class="um-last__topic">{catrow.forumrow.LATEST_TOPIC_NAME}</a>
+								<!-- END switch_topic_title -->
+								<span class="um-last__meta">{catrow.forumrow.USER_LAST_POST}</span>
+							</span>
+						</dd>
+					</dl>
+				</li>
+	<!-- END forumrow -->
+
+	<!-- BEGIN tablefoot -->
+			</ul>
+
+			<span class="corners-bottom um-corner"><span></span></span></div>
+		</div>
+	<!-- END tablefoot -->
+<!-- END catrow -->
+</div>
+
+<!-- BEGIN switch_forum_images -->
+<div class="forabg um-cat um-cat--gallery">
+	<div class="inner um-cat__inner"><span class="corners-top um-corner"><span></span></span>
+		<ul class="topiclist um-cat__head">
+			<li class="header um-cat__header">
+				<dl class="icon um-cat__dl">
+					<dd class="dterm um-cat__title"><div class="table-title um-cat__name"><h2>{switch_forum_images.TITLE}</h2></div><i class="um-cat__line"></i></dd>
+				</dl>
+			</li>
+		</ul>
+		<div class="container-imgs-list um-gallery" id="imageList">
+			{switch_forum_images.SCRIPTS}
+		</div>
+	</div>
+	<span class="corners-bottom um-corner"><span></span></span>
+</div>
+<!-- END switch_forum_images -->
+
+<!-- BEGIN switch_on_index -->
+<ul class="linklist um-links um-links--foot">
+	<li class="um-links__item"><a class="um-links__a" href="{U_TODAY_ACTIVE}">{L_TODAY_ACTIVE}</a></li>
+	<li class="um-links__item"><a class="um-links__a" href="{U_TODAY_POSTERS}">{L_TODAY_POSTERS}</a></li>
+	<li class="last um-links__item"><a class="um-links__a" href="{U_OVERALL_POSTERS}">{L_OVERALL_POSTERS}</a></li>
+	<!-- BEGIN switch_delete_cookies -->
+	<li class="rightside um-links__item um-links__item--right"><a class="um-links__a" href="{switch_on_index.switch_delete_cookies.U_DELETE_COOKIES}" rel="nofollow">{switch_on_index.switch_delete_cookies.L_DELETE_COOKIES}</a></li>
+	<!-- END switch_delete_cookies -->
+</ul>
+<!-- END switch_on_index -->
