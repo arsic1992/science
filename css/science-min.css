@@ -1,111 +1,554 @@
-<ul class="linklist um-links">
-	<!-- BEGIN switch_user_logged_in -->
-	<li class="um-links__item"><a class="um-links__a" href="{U_SEARCH_NEW}">{L_SEARCH_NEW}</a></li>
-	<li class="um-links__item"><a class="um-links__a" href="{U_SEARCH_SELF}">{L_SEARCH_SELF}</a></li>
-	<!-- END switch_user_logged_in -->
-	<li class="um-links__item"><a class="um-links__a" href="{U_SEARCH_UNANSWERED}">{L_SEARCH_UNANSWERED}</a></li>
-	<!-- BEGIN switch_user_logged_in -->
-	<li class="rightside um-links__item um-links__item--right"><a class="um-links__a" href="{U_MARK_READ}" accesskey="m">{L_MARK_FORUMS_READ}</a></li>
-	<!-- END switch_user_logged_in -->
-</ul>
+/* ==========================================================================
+   Unstoppable mind  -  Neural HUD  -  index_box (categories + forum list)
+   Dark only. Flexbox layout. Every selector uses NEW classes (um-*).
+   Colours / fonts / icons are tokens at the top: change them there.
+   ========================================================================== */
 
-<div class="um-board">
-<!-- BEGIN catrow -->
-	<!-- BEGIN tablehead -->
-		<div class="forabg um-cat">
-			<div class="inner um-cat__inner"><span class="corners-top um-corner"><span></span></span>
-			<ul class="topiclist um-cat__head">
-				<li class="header um-cat__header">
-					<dl class="icon um-cat__dl">
-						<dd class="dterm um-cat__title"><span class="um-cat__idx"></span><div class="table-title um-cat__name">{catrow.tablehead.L_FORUM}</div><i class="um-cat__line"></i></dd>
-						<div class="um-cat__stats">
-							<dd class="topics um-cat__label">{L_TOPICS}</dd>
-							<dd class="posts um-cat__label">{L_POSTS}</dd>
-						</div>
-						<dd class="lastpost um-cat__label um-cat__last"><span>{L_LASTPOST}</span></dd>
-					</dl>
-				</li>
-			</ul>
-			<ul class="topiclist forums um-forums">
-	<!-- END tablehead -->
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;700&display=swap');
 
-	<!-- BEGIN forumrow -->
-				<li class="row um-forum um-lvl-{catrow.forumrow.LEVEL}">
-					<dl class="icon um-forum__dl" style="background:url({catrow.forumrow.FORUM_FOLDER_IMG}) no-repeat scroll {catrow.forumrow.INC_LEVEL} 50%;">
-						<dd class="um-forum__rail"><span class="um-hex"><i class="um-hex__ico"></i></span><b class="um-forum__state"></b></dd>
-						<dd class="dterm um-forum__main">
-							<div class="um-forum__body">
-								<h{catrow.forumrow.LEVEL} class="hierarchy um-forum__heading"><a href="{catrow.forumrow.U_VIEWFORUM}" class="forumtitle um-forum__title">{catrow.forumrow.FORUM_NAME}</a></h{catrow.forumrow.LEVEL}>
-								<div class="um-forum__desc">{catrow.forumrow.FORUM_DESC}</div>
-								<div class="um-forum__mods"><!-- BEGIN switch_moderators_links -->{catrow.forumrow.switch_moderators_links.L_MODERATOR}{catrow.forumrow.switch_moderators_links.MODERATORS}<!-- END switch_moderators_links --></div>
-								<div class="um-forum__subs">{catrow.forumrow.L_LINKS}{catrow.forumrow.LINKS}<strong>{forumrow.L_SUBFORUM_STR}</strong> {forumrow.SUBFORUMS}</div>
-							</div>
-						</dd>
-						<div class="um-forum__stats">
-							<dd class="topics um-stat" style="--um-n:{catrow.forumrow.TOPICS}">{catrow.forumrow.TOPICS} <dfn>{L_TOPICS}</dfn></dd>
-							<dd class="posts um-stat" style="--um-n:{catrow.forumrow.POSTS}">{catrow.forumrow.POSTS} <dfn>{L_POSTS}</dfn></dd>
-						</div>
-						<dd class="lastpost um-last">
-							<!-- BEGIN ads -->
-							<span class="AD_LastPA um-ad">
-								<span class="lastpost-avatar um-av"><img src="{catrow.forumrow.ads.IMG}" alt="{catrow.forumrow.ads.TITLE}" loading="lazy" /></span>
-								<span class="AD_LastInfos um-ad__info">
-									<b><a href="{catrow.forumrow.ads.LINK}">{catrow.forumrow.ads.TITLE}</a></b><br />
-									{catrow.forumrow.ads.DATE}<br />
-									{catrow.forumrow.ads.LOCATION}
-								</span>
-							</span>
-							<!-- END ads -->
+/* ---------- tokens ---------- */
+.um-board,
+.um-cat,
+.um-links {
+	--um-c: 34,211,238;      /* accent (cyan), rgb triplet   */
+	--um-m: 232,121,249;     /* accent 2 (magenta)           */
+	--um-ink: #e8f3fb;
+	--um-soft: #7f98ad;
+	--um-mute: #58768b;
+	--um-panel-a: #0a1422;
+	--um-panel-b: #060c16;
+	--um-sans: 'Space Grotesk', system-ui, -apple-system, 'Segoe UI', sans-serif;
+	--um-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Consolas, monospace;
 
-							<!-- BEGIN avatar -->
-							<span class="lastpost-avatar um-av">{catrow.forumrow.avatar.LAST_POST_AVATAR}</span>
-							<!-- END avatar -->
+	--um-i-new: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M4 5h16v11h-8l-5 4v-4H4z' fill='black'/%3E%3C/svg%3E");
+	--um-i-read: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M4.5 5.5h15v10h-7.5l-4.5 3.5v-3.5h-3z' fill='none' stroke='black' stroke-width='2' stroke-linejoin='round'/%3E%3C/svg%3E");
+	--um-i-lock: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='5' y='11' width='14' height='10' rx='1.5' fill='black'/%3E%3Cpath d='M8 11V8a4 4 0 0 1 8 0v3' fill='none' stroke='black' stroke-width='2'/%3E%3C/svg%3E");
+	--um-i-out: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 18L18 6M9 6h9v9' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+	--um-i-sub: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2 1v7h8M7 5l3 3-3 3' fill='none' stroke='black' stroke-width='1.4'/%3E%3C/svg%3E");
+}
 
-							<span class="um-last__text">
-								<!-- BEGIN switch_topic_title -->
-								<a href="{catrow.forumrow.U_LATEST_TOPIC}" title="{catrow.forumrow.LATEST_TOPIC_TITLE}" class="um-last__topic">{catrow.forumrow.LATEST_TOPIC_NAME}</a>
-								<!-- END switch_topic_title -->
-								<span class="um-last__meta">{catrow.forumrow.USER_LAST_POST}</span>
-							</span>
-						</dd>
-					</dl>
-				</li>
-	<!-- END forumrow -->
+.um-cat,
+.um-cat *,
+.um-cat *::before,
+.um-cat *::after,
+.um-links,
+.um-links * {
+	box-sizing: border-box;
+}
 
-	<!-- BEGIN tablefoot -->
-			</ul>
+/* ---------- board wrapper ---------- */
+.um-board {
+	display: flex;
+	flex-direction: column;
+	counter-reset: um-cat;
+	clear: both;
+	margin: 0;
+	padding: 0;
+	background: none;
+	border: 0;
+	font-family: var(--um-sans);
+	color: var(--um-ink);
+}
 
-			<span class="corners-bottom um-corner"><span></span></span></div>
-		</div>
-	<!-- END tablefoot -->
-<!-- END catrow -->
-</div>
+/* ---------- quick links (above / below the board) ---------- */
+.um-links.linklist {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 6px 0;
+	margin: 0 0 4px;
+	padding: 0;
+	list-style: none;
+	font: 500 11.5px/1.4 var(--um-mono);
+	letter-spacing: .08em;
+	text-transform: uppercase;
+}
+.um-links.um-links--foot { margin: 14px 0 0; }
+.um-links .um-links__item {
+	display: flex;
+	align-items: center;
+	float: none;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+.um-links .um-links__item + .um-links__item::before {
+	content: "";
+	width: 3px;
+	height: 3px;
+	margin: 0 12px;
+	background: rgba(var(--um-c), .55);
+}
+.um-links.linklist .um-links__item.um-links__item--right { margin-left: auto; margin-right: 0; }
+.um-links.linklist .um-links__item.um-links__item--right::before { display: none; }
+.um-links .um-links__a { color: #7fe3f2; text-decoration: none; }
+.um-links .um-links__a:hover { color: #fff; }
 
-<!-- BEGIN switch_forum_images -->
-<div class="forabg um-cat um-cat--gallery">
-	<div class="inner um-cat__inner"><span class="corners-top um-corner"><span></span></span>
-		<ul class="topiclist um-cat__head">
-			<li class="header um-cat__header">
-				<dl class="icon um-cat__dl">
-					<dd class="dterm um-cat__title"><div class="table-title um-cat__name"><h2>{switch_forum_images.TITLE}</h2></div><i class="um-cat__line"></i></dd>
-				</dl>
-			</li>
-		</ul>
-		<div class="container-imgs-list um-gallery" id="imageList">
-			{switch_forum_images.SCRIPTS}
-		</div>
-	</div>
-	<span class="corners-bottom um-corner"><span></span></span>
-</div>
-<!-- END switch_forum_images -->
+/* ---------- category block ---------- */
+.forabg.um-cat {
+	display: block;
+	margin: 28px 0 0;
+	padding: 0;
+	border: 0;
+	border-radius: 0;
+	background: none;
+	box-shadow: none;
+	clear: both;
+	counter-increment: um-cat;
+}
+.um-cat .um-cat__inner { margin: 0; padding: 0; border: 0; background: none; }
+.um-cat .um-corner { display: none; }
+.um-cat .um-cat__head { display: block; margin: 0 0 8px; padding: 0; list-style: none; }
+.um-cat .um-cat__head .um-cat__header {
+	display: block;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	background: none;
+	list-style: none;
+}
 
-<!-- BEGIN switch_on_index -->
-<ul class="linklist um-links um-links--foot">
-	<li class="um-links__item"><a class="um-links__a" href="{U_TODAY_ACTIVE}">{L_TODAY_ACTIVE}</a></li>
-	<li class="um-links__item"><a class="um-links__a" href="{U_TODAY_POSTERS}">{L_TODAY_POSTERS}</a></li>
-	<li class="last um-links__item"><a class="um-links__a" href="{U_OVERALL_POSTERS}">{L_OVERALL_POSTERS}</a></li>
-	<!-- BEGIN switch_delete_cookies -->
-	<li class="rightside um-links__item um-links__item--right"><a class="um-links__a" href="{switch_on_index.switch_delete_cookies.U_DELETE_COOKIES}" rel="nofollow">{switch_on_index.switch_delete_cookies.L_DELETE_COOKIES}</a></li>
-	<!-- END switch_delete_cookies -->
-</ul>
-<!-- END switch_on_index -->
+/* category header = title row + column-label row */
+.um-cat .um-cat__header .um-cat__dl {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	min-height: 0;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	background: none;
+}
+/* spacer: 1px basis so it wraps onto the label row instead of joining the title row */
+.um-cat .um-cat__header .um-cat__dl::before { content: ""; order: 1; flex: 1 1 1px; min-width: 0; }
+
+.um-cat .um-cat__dl .um-cat__title {
+	order: 0;
+	flex: 0 0 100%;
+	display: flex;
+	align-items: center;
+	gap: 16px;
+	float: none;
+	width: auto;
+	margin: 0 0 8px;
+	padding: 0;
+	border: 0;
+}
+.um-cat .um-cat__title .um-cat__idx {
+	display: inline-block;
+	padding: 3px 8px;
+	font: 700 13px/1.2 var(--um-mono);
+	color: #04070d;
+	background: rgb(var(--um-c));
+	clip-path: polygon(0 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%);
+}
+.um-cat .um-cat__title .um-cat__idx::before { content: counter(um-cat, decimal-leading-zero); }
+.um-cat .um-cat__title .um-cat__name {
+	margin: 0;
+	padding: 0;
+	font: 700 15px/1.2 var(--um-sans);
+	letter-spacing: .22em;
+	text-transform: uppercase;
+	color: #e8f6ff;
+}
+.um-cat .um-cat__name h2,
+.um-cat .um-cat__name a {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font: inherit;
+	letter-spacing: inherit;
+	text-transform: inherit;
+	color: inherit;
+	text-decoration: none;
+}
+.um-cat .um-cat__title .um-cat__line {
+	position: relative;
+	flex: 1 1 auto;
+	height: 1px;
+	background: linear-gradient(90deg, rgba(var(--um-c), .6), rgba(var(--um-m), .25), transparent);
+}
+.um-cat .um-cat__title .um-cat__line::after {
+	content: "";
+	position: absolute;
+	left: 0;
+	top: -2px;
+	width: 5px;
+	height: 5px;
+	background: rgb(var(--um-c));
+	box-shadow: 0 0 8px rgb(var(--um-c));
+}
+
+.um-cat .um-cat__dl .um-cat__stats {
+	order: 2;
+	flex: 0 0 160px;
+	display: flex;
+	padding: 0 0 0 10px;
+}
+.um-cat .um-cat__dl .um-cat__label {
+	float: none;
+	width: auto;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	background: none;
+	font: 500 10px/1 var(--um-mono);
+	letter-spacing: .2em;
+	text-transform: uppercase;
+	color: #4f6c80;
+}
+.um-cat .um-cat__stats .um-cat__label.topics::after { content: "/"; margin: 0 8px; opacity: .6; }
+.um-cat .um-cat__dl .um-cat__last { order: 3; flex: 0 0 340px; padding: 0 0 0 23px; }
+
+/* ---------- forum list ---------- */
+.um-cat .um-forums {
+	display: flex;
+	flex-direction: column;
+	gap: 14px;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	background: none;
+	list-style: none;
+}
+
+/* forum state tokens: read (default) / unread / locked / link.
+   The state comes from the folder image Forumotion writes into the dl style. */
+.um-board .um-cat .um-forums .um-forum {
+	--um-s: 90,115,140;
+	--um-bar: .35;
+	--um-glow: 0px;
+	--um-tint: transparent;
+	--um-lbl: "IDLE";
+	--um-ico: var(--um-i-read);
+}
+.um-board .um-cat .um-forums .um-forum:has(> .um-forum__dl[style*="unread"]) {
+	--um-s: 34,211,238;
+	--um-bar: .9;
+	--um-glow: 8px;
+	--um-tint: rgba(34,211,238,.09);
+	--um-lbl: "NEW";
+	--um-ico: var(--um-i-new);
+}
+.um-board .um-cat .um-forums .um-forum:has(> .um-forum__dl[style*="locked"]) {
+	--um-s: 251,113,133;
+	--um-bar: .9;
+	--um-lbl: "LOCKED";
+	--um-ico: var(--um-i-lock);
+}
+.um-board .um-cat .um-forums .um-forum:has(> .um-forum__dl[style*="link"]) {
+	--um-s: 232,121,249;
+	--um-lbl: "LINK";
+	--um-ico: var(--um-i-out);
+}
+
+/* sub-level forums (heading level 4, 5 ...) get indented */
+.um-board .um-cat .um-forums .um-forum.um-lvl-4 { margin-left: 28px; }
+.um-board .um-cat .um-forums .um-forum.um-lvl-5 { margin-left: 56px; }
+
+/* panel: li = gradient frame, dl = dark body (both with cut corners) */
+.um-board .um-cat .um-forums .um-forum {
+	position: relative;
+	display: block;
+	margin: 0;
+	padding: 1px;
+	border: 0;
+	list-style: none;
+	background: linear-gradient(135deg, rgba(var(--um-s), .85), rgba(var(--um-s), .12) 42%, rgba(var(--um-m), .4));
+	clip-path: polygon(0 0, calc(100% - 22px) 0, 100% 22px, 100% 100%, 22px 100%, 0 calc(100% - 22px));
+}
+.um-board .um-cat .um-forums .um-forum .um-forum__dl {
+	display: flex;
+	align-items: stretch;
+	min-height: 108px;
+	margin: 0;
+	padding: 0;
+	float: none;
+	border: 0;
+	background: linear-gradient(90deg, var(--um-tint), transparent 40%), linear-gradient(180deg, var(--um-panel-a), var(--um-panel-b)) !important;
+	clip-path: polygon(0 0, calc(100% - 21px) 0, 100% 21px, 100% 100%, 21px 100%, 0 calc(100% - 21px));
+}
+
+/* ---- indicator rail (left) ---- */
+.um-board .um-cat .um-forums .um-forum .um-forum__rail {
+	flex: 0 0 104px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 9px;
+	float: none;
+	width: auto;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	border-right: 1px solid rgba(var(--um-s), .18);
+	background: linear-gradient(180deg, rgba(var(--um-s), .10), transparent);
+	box-shadow: inset 3px 0 0 rgba(var(--um-s), var(--um-bar));
+}
+.um-board .um-cat .um-forums .um-forum .um-hex {
+	position: relative;
+	display: block;
+	width: 52px;
+	height: 58px;
+	filter: drop-shadow(0 0 var(--um-glow) rgba(var(--um-s), .9));
+}
+.um-board .um-cat .um-forums .um-forum .um-hex::before,
+.um-board .um-cat .um-forums .um-forum .um-hex::after {
+	content: "";
+	position: absolute;
+	clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
+}
+.um-board .um-cat .um-forums .um-forum .um-hex::before { inset: 0; background: rgb(var(--um-s)); }
+.um-board .um-cat .um-forums .um-forum .um-hex::after {
+	inset: 1.8px;
+	background: linear-gradient(rgba(var(--um-s), .16), rgba(var(--um-s), .16)), #07101b;
+}
+.um-board .um-cat .um-forums .um-forum .um-hex__ico {
+	position: absolute;
+	inset: 0;
+	z-index: 1;
+	width: 24px;
+	height: 24px;
+	margin: auto;
+	background: rgb(var(--um-s));
+	-webkit-mask: var(--um-ico) center / contain no-repeat;
+	mask: var(--um-ico) center / contain no-repeat;
+}
+.um-board .um-cat .um-forums .um-forum .um-forum__state {
+	margin: 0;
+	font: 700 10px/1 var(--um-mono);
+	letter-spacing: .22em;
+	color: rgb(var(--um-s));
+}
+.um-board .um-cat .um-forums .um-forum .um-forum__state::after { content: var(--um-lbl); }
+
+/* ---- main: name / description / moderators / subforums ---- */
+.um-board .um-cat .um-forums .um-forum .um-forum__main {
+	flex: 1 1 auto;
+	min-width: 0;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	float: none;
+	width: auto;
+	margin: 0;
+	padding: 18px 24px;
+	border: 0;
+}
+.um-board .um-cat .um-forums .um-forum .um-forum__body { display: flex; flex-direction: column; margin: 0; padding: 0; }
+.um-board .um-cat .um-forums .um-forum .um-forum__heading { margin: 0; padding: 0; border: 0; font: inherit; color: inherit; text-transform: none; letter-spacing: normal; }
+.um-board .um-cat .um-forums .um-forum .um-forum__title {
+	font: 700 23px/1.15 var(--um-sans);
+	letter-spacing: normal;
+	text-transform: none;
+	color: #fff;
+	text-decoration: none;
+}
+.um-board .um-cat .um-forums .um-forum .um-forum__title:hover { color: rgb(var(--um-s)); }
+.um-board .um-cat .um-forums .um-forum .um-forum__desc { margin-top: 4px; font: 400 14.5px/1.4 var(--um-sans); color: var(--um-soft); }
+.um-board .um-cat .um-forums .um-forum .um-forum__mods { margin-top: 6px; font: 400 11px/1.4 var(--um-mono); color: var(--um-mute); }
+.um-board .um-cat .um-forums .um-forum .um-forum__desc:empty,
+.um-board .um-cat .um-forums .um-forum .um-forum__mods:empty { display: none; }
+.um-board .um-cat .um-forums .um-forum .um-forum__mods a { color: #7fe3f2; text-decoration: none; }
+
+.um-board .um-cat .um-forums .um-forum .um-forum__subs { display: flex; flex-wrap: wrap; column-gap: 8px; font-size: 0; line-height: 0; }
+.um-board .um-cat .um-forums .um-forum .um-forum__subs a {
+	display: inline-flex;
+	align-items: center;
+	gap: 7px;
+	margin-top: 11px;
+	padding: 3px 10px 3px 7px;
+	font: 400 11.5px/1.4 var(--um-mono);
+	color: #7fe3f2;
+	text-decoration: none;
+	border: 1px solid rgba(var(--um-c), .28);
+	background: rgba(var(--um-c), .05);
+}
+.um-board .um-cat .um-forums .um-forum .um-forum__subs a::before {
+	content: "";
+	width: 11px;
+	height: 11px;
+	background: rgb(var(--um-c));
+	-webkit-mask: var(--um-i-sub) center / contain no-repeat;
+	mask: var(--um-i-sub) center / contain no-repeat;
+}
+.um-board .um-cat .um-forums .um-forum .um-forum__subs a:hover { color: #fff; border-color: rgba(var(--um-c), .6); }
+
+/* ---- stats: number + label + log-scaled meter ---- */
+.um-board .um-cat .um-forums .um-forum .um-forum__stats {
+	flex: 0 0 160px;
+	min-width: 0;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	gap: 13px;
+	padding: 0 10px;
+}
+.um-board .um-cat .um-forums .um-forum .um-stat {
+	--um-fill: clamp(6%, calc(log(var(--um-n) + 1) / log(1000) * 100%), 100%);
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	column-gap: 8px;
+	float: none;
+	width: auto;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	text-align: left;
+	font: 700 23px/1 var(--um-mono);
+	color: #fff;
+}
+.um-board .um-cat .um-forums .um-forum .um-stat dfn {
+	font: 400 10px/1 var(--um-mono);
+	font-style: normal;
+	letter-spacing: .2em;
+	text-transform: uppercase;
+	color: var(--um-mute);
+}
+.um-board .um-cat .um-forums .um-forum .um-stat::after {
+	content: "";
+	flex: 0 0 112px;
+	height: 3px;
+	margin-top: 6px;
+	background-color: rgba(var(--um-s), .14);
+	background-image: linear-gradient(90deg, rgb(var(--um-s)), rgb(var(--um-m)));
+	background-repeat: no-repeat;
+	background-size: var(--um-fill) 100%;
+}
+
+/* ---- last post: hex avatar / topic / user / date / jump button ---- */
+.um-board .um-cat .um-forums .um-forum .um-last {
+	position: relative;
+	flex: 0 0 340px;
+	min-width: 0;
+	display: flex;
+	align-items: center;
+	gap: 15px;
+	float: none;
+	width: auto;
+	margin: 0;
+	padding: 0 76px 0 22px;
+	border: 0;
+	border-left: 1px solid rgba(255, 255, 255, .06);
+	text-align: left;
+}
+.um-board .um-cat .um-forums .um-forum .um-av {
+	flex: 0 0 54px;
+	display: block;
+	width: 54px;
+	height: 60px;
+	margin: 0;
+	padding: 1.5px;
+	background: linear-gradient(160deg, rgb(var(--um-s)), rgb(var(--um-m)));
+	clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
+}
+.um-board .um-cat .um-forums .um-forum .um-av img {
+	display: block;
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	object-fit: cover;
+	background: #000;
+	clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
+}
+.um-board .um-cat .um-forums .um-forum .um-last__text { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 3px; }
+.um-board .um-cat .um-forums .um-forum .um-last__topic {
+	display: block;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	font: 500 14.5px/1.3 var(--um-sans);
+	color: var(--um-ink);
+	text-decoration: none;
+}
+.um-board .um-cat .um-forums .um-forum .um-last__topic:hover { color: rgb(var(--um-c)); }
+
+/* meta = "{date}<br><strong>user</strong>&nbsp;<a.last-post-icon>" from USER_LAST_POST */
+.um-board .um-cat .um-forums .um-forum .um-last__meta {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	column-gap: 6px;
+	font: 400 11px/1.5 var(--um-mono);
+	color: #5f788c;
+}
+.um-board .um-cat .um-forums .um-forum .um-last__meta > strong { order: -1; flex: 0 0 100%; font: 500 12px/1.5 var(--um-mono); color: rgb(var(--um-c)); }
+.um-board .um-cat .um-forums .um-forum .um-last__meta > strong a { color: inherit; font: inherit; text-decoration: none; }
+.um-board .um-cat .um-forums .um-forum .um-last__meta > strong a:hover { text-decoration: underline; }
+/* group colour #000 would vanish on dark: lift it */
+.um-board .um-cat .um-forums .um-forum .um-last__meta [style*="#000000"],
+.um-board .um-cat .um-forums .um-forum .um-last__meta [style*="#000;"],
+.um-board .um-cat .um-forums .um-forum .um-last__meta [style*="rgb(0, 0, 0)"] { color: #dbe9f4 !important; }
+
+.um-board .um-cat .um-forums .um-forum .um-last__meta .last-post-icon {
+	position: absolute;
+	right: 24px;
+	top: 50%;
+	display: grid;
+	place-items: center;
+	width: 38px;
+	height: 38px;
+	margin-top: -19px;
+	padding: 0;
+	border: 1px solid rgba(var(--um-s), .55);
+	background: rgba(var(--um-s), .08);
+	box-shadow: inset 0 0 10px rgba(var(--um-s), .1);
+	clip-path: polygon(0 0, calc(100% - 9px) 0, 100% 9px, 100% 100%, 9px 100%, 0 calc(100% - 9px));
+}
+.um-board .um-cat .um-forums .um-forum .um-last__meta .last-post-icon:hover { background: rgba(var(--um-s), .22); }
+.um-board .um-cat .um-forums .um-forum .um-last__meta .last-post-icon img { display: none; }
+.um-board .um-cat .um-forums .um-forum .um-last__meta .last-post-icon::before {
+	content: "";
+	width: 16px;
+	height: 16px;
+	background: rgb(var(--um-s));
+	-webkit-mask: var(--um-i-out) center / contain no-repeat;
+	mask: var(--um-i-out) center / contain no-repeat;
+}
+
+/* ads row (same slot as the last post) */
+.um-board .um-cat .um-forums .um-forum .um-ad { display: flex; align-items: center; gap: 15px; }
+.um-board .um-cat .um-forums .um-forum .um-ad__info { font: 400 11px/1.5 var(--um-mono); color: #5f788c; }
+.um-board .um-cat .um-forums .um-forum .um-ad__info a { color: var(--um-ink); font: 500 14.5px/1.3 var(--um-sans); text-decoration: none; }
+
+/* ---------- image gallery block ---------- */
+.um-cat .um-gallery {
+	max-height: 500px;
+	overflow: auto;
+	margin: 0;
+	padding: 14px;
+	border: 1px solid rgba(var(--um-c), .18);
+	background: linear-gradient(180deg, var(--um-panel-a), var(--um-panel-b));
+}
+
+/* ---------- narrow screens ---------- */
+@media (max-width: 860px) {
+	.um-cat .um-cat__dl .um-cat__stats,
+	.um-cat .um-cat__dl .um-cat__last,
+	.um-cat .um-cat__header .um-cat__dl::before { display: none; }
+
+	.um-board .um-cat .um-forums .um-forum .um-forum__dl { flex-wrap: wrap; }
+	.um-board .um-cat .um-forums .um-forum .um-forum__rail { flex: 0 0 84px; }
+	.um-board .um-cat .um-forums .um-forum .um-forum__main { flex: 1 1 calc(100% - 84px); padding: 16px 18px; }
+	.um-board .um-cat .um-forums .um-forum .um-forum__stats {
+		flex: 1 1 100%;
+		flex-direction: row;
+		gap: 28px;
+		padding: 12px 18px;
+		border-top: 1px solid rgba(255, 255, 255, .06);
+	}
+	.um-board .um-cat .um-forums .um-forum .um-last {
+		flex: 1 1 100%;
+		padding: 12px 76px 12px 18px;
+		border-left: 0;
+		border-top: 1px solid rgba(255, 255, 255, .06);
+	}
+}
+
+/* ---------- optional: dark page tint (uncomment if you want it from this file) ----------
+body { background: #04070d; }
+------------------------------------------------------------------------------------------ */
