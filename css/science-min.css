@@ -1334,6 +1334,95 @@ html #um-nav #notif_list {
 		linear-gradient(180deg, #0b1626, #060c16) !important;
 }
 
+/* ==========================================================================
+   Header banner (#page-header)  -  full width, 435px, directly under the nav
+   ========================================================================== */
+html body #page-header.um-hero {
+	position: relative !important;
+	z-index: 1;
+	display: block !important;
+	float: none !important;
+	width: 100% !important;
+	max-width: none !important;
+	height: 435px !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	overflow: hidden !important;
+	border: 0 !important;
+	background: #060c16 !important;
+}
+/* every wrapper inside is exactly as big as the banner */
+html body #page-header.um-hero .um-hero__bar,
+html body #page-header.um-hero .um-hero__in,
+html body #page-header.um-hero .um-hero__desc,
+html body #page-header.um-hero .um-hero__logo {
+	display: block !important;
+	float: none !important;
+	width: 100% !important;
+	height: 100% !important;
+	min-height: 0 !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	border: 0 !important;
+	background: none !important;
+	box-shadow: none !important;
+}
+html body #page-header.um-hero .um-corner { display: none !important; }
+html body #page-header.um-hero .um-hero__img {
+	display: block !important;
+	width: 100% !important;
+	height: 100% !important;
+	max-width: none !important;
+	max-height: none !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	border: 0 !important;
+	object-fit: cover !important;
+	object-position: center !important;
+}
+
+/* smooth transition into the page: a fade at the bottom, then a glowing line */
+html body #page-header.um-hero::before {
+	content: "";
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 2;
+	height: 140px;
+	background: linear-gradient(180deg, rgba(4, 7, 13, 0) 0%, rgba(4, 7, 13, .55) 55%, #04070d 100%);
+	pointer-events: none;
+}
+html body #page-header.um-hero::after {
+	content: "";
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 3;
+	height: 2px;
+	background: linear-gradient(90deg, transparent, rgba(34, 211, 238, .9) 20%, rgba(232, 121, 249, .9) 80%, transparent);
+	box-shadow: 0 0 14px rgba(34, 211, 238, .6), 0 0 34px rgba(232, 121, 249, .35);
+	pointer-events: none;
+}
+
+/* optional site title / description, if enabled in the admin panel: laid over the fade */
+html body #page-header.um-hero .um-hero__title,
+html body #page-header.um-hero .um-hero__text {
+	position: absolute !important;
+	left: 0;
+	right: 0;
+	z-index: 4;
+	width: auto !important;
+	height: auto !important;
+	margin: 0 !important;
+	padding: 0 24px !important;
+	text-align: center !important;
+	text-shadow: 0 2px 18px rgba(0, 0, 0, .8);
+}
+html body #page-header.um-hero .um-hero__title { bottom: 58px; font: 700 28px/1.1 'Space Grotesk', sans-serif; letter-spacing: .22em; text-transform: uppercase; color: #fff !important; }
+html body #page-header.um-hero .um-hero__text { bottom: 26px; font: 500 12px/1.4 'JetBrains Mono', monospace; letter-spacing: .16em; text-transform: uppercase; color: #7fe3f2 !important; }
+
 /* ---------- page backdrop (dark) ----------
    #wrap is the Forumotion page wrapper. If something else is still white,
    send me its id/class and I'll add it here. */
