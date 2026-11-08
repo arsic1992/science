@@ -939,7 +939,9 @@
 	border: 0;
 	transition: color .25s, text-shadow .25s;
 }
-.um-nav .um-nav__list.linklist > li a img { display: block; width: auto; max-height: 16px; opacity: .75; transition: opacity .25s; }
+/* no icons in the links */
+.um-nav .um-nav__list.linklist > li a img,
+.um-nav .um-nav__list.linklist > li a [class*="sprite-"] { display: none !important; }
 
 /* hover: neon tint rises from below, a line grows from the centre */
 .um-nav .um-nav__list.linklist > li a::before {
@@ -975,54 +977,7 @@
 .um-nav .um-nav__list.linklist > li a:focus-visible::before { transform: translateY(0); }
 .um-nav .um-nav__list.linklist > li a:hover::after,
 .um-nav .um-nav__list.linklist > li a:focus-visible::after { width: 100%; }
-.um-nav .um-nav__list.linklist > li a:hover img { opacity: 1; }
 
-/* search, pinned to the right edge */
-.um-nav .um-nav__search {
-	position: absolute;
-	top: 0;
-	right: 16px;
-	display: flex;
-	align-items: center;
-	float: none;
-	width: auto;
-	height: 40px;
-	margin: 0;
-	padding: 0;
-	border: 0;
-	background: none;
-}
-.um-nav .um-nav__search p { display: flex; align-items: center; gap: 6px; margin: 0; padding: 0; }
-.um-nav .um-nav__input {
-	width: 150px;
-	height: 26px;
-	margin: 0;
-	padding: 0 10px;
-	font: 500 11px/1 var(--um-mono);
-	color: #fff;
-	background: #07101b;
-	border: 1px solid rgba(var(--um-c), .3);
-	border-radius: 0;
-	outline: 0;
-	transition: width .25s, border-color .25s, box-shadow .25s;
-}
-.um-nav .um-nav__input:focus { width: 200px; border-color: rgb(var(--um-c)); box-shadow: 0 0 12px rgba(var(--um-c), .35); }
-.um-nav .um-nav__btn {
-	height: 26px;
-	margin: 0;
-	padding: 0 12px;
-	font: 700 10.5px/1 var(--um-mono);
-	letter-spacing: .14em;
-	text-transform: uppercase;
-	color: #04070d;
-	background: rgb(var(--um-c));
-	border: 0;
-	border-radius: 0;
-	cursor: pointer;
-}
-.um-nav .um-nav__btn:hover { background: #fff; }
-
-@media (max-width: 1100px) { .um-nav .um-nav__search { display: none; } }
 @media (max-width: 700px) {
 	.um-nav .um-nav__in { justify-content: flex-start; padding: 0 6px; }
 	.um-nav .um-nav__list.linklist { overflow-x: auto; justify-content: flex-start; }
