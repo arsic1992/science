@@ -1868,8 +1868,14 @@ html body .um-vt .um-box .h3 { margin: 0 0 8px !important; padding: 0 !important
 html body .um-vt .um-box table { width: 100% !important; border-collapse: collapse !important; }
 html body .um-vt .um-box td { padding: 4px 8px !important; vertical-align: top !important; }
 html body .um-vt .um-vt__qr { margin: 0 0 18px !important; }
-html body .um-vt .um-vt__qr .panel, html body .um-vt .um-vt__qr .forumbg { padding: 14px 18px !important; color: #a9bccc !important; background: linear-gradient(180deg, var(--um-panel-a), var(--um-panel-b)) !important; border: 1px solid rgba(var(--um-c), .28) !important; border-radius: 0 !important; }
-html body .um-vt .um-vt__qr .h3 { margin: 0 0 8px !important; border: 0 !important; background: none !important; font: 700 12px/1.2 var(--um-sans) !important; letter-spacing: .22em !important; text-transform: uppercase !important; color: #e8f6ff !important; }
+html body .um-vt .um-vt__qr { max-width: 900px !important; margin: 0 0 22px !important; padding: 20px 24px 22px !important; background: linear-gradient(180deg, var(--um-panel-a), var(--um-panel-b)) !important; border: 1px solid rgba(var(--um-c), .3) !important; border-top: 2px solid rgb(var(--um-c)) !important; }
+html body .um-vt .um-vt__qr .panel, html body .um-vt .um-vt__qr .forumbg, html body .um-vt .um-vt__qr .inner, html body .um-vt .um-vt__qr .panel > .inner { margin: 0 !important; padding: 0 !important; background: none !important; border: 0 !important; border-radius: 0 !important; box-shadow: none !important; }
+html body .um-vt .um-vt__qr form, html body .um-vt .um-vt__qr .sceditor-container { width: 100% !important; max-width: 100% !important; }
+html body .um-vt .um-vt__qr .sceditor-container textarea, html body .um-vt .um-vt__qr textarea { min-height: 220px !important; height: 220px !important; }
+html body .um-vt .um-vt__qr .sceditor-container, html body .um-vt .um-vt__qr #textarea_content { margin: 0 auto !important; }
+html body .um-vt .um-vt__qr .h3 { display: flex !important; align-items: center !important; gap: 14px !important; margin: 0 0 16px !important; padding: 0 !important; border: 0 !important; background: none !important; font: 700 13px/1.2 var(--um-sans) !important; letter-spacing: .22em !important; text-transform: uppercase !important; color: #e8f6ff !important; }
+html body .um-vt .um-vt__qr .h3::before { content: "" !important; flex: none !important; width: 8px !important; height: 8px !important; background: rgb(var(--um-c)) !important; box-shadow: 0 0 8px rgb(var(--um-c)) !important; }
+html body .um-vt .um-vt__qr .h3::after { content: "" !important; flex: 1 1 auto !important; height: 1px !important; background: linear-gradient(90deg, rgba(var(--um-c), .5), rgba(var(--um-m), .2), transparent) !important; }
 html body .um-vt textarea, html body .um-vt input[type="text"], html body .um-vt input.post, html body .um-vt select { color: #e8f3fb !important; background: #07101b !important; border: 1px solid rgba(var(--um-c), .3) !important; border-radius: 0 !important; font: 500 13px/1.4 var(--um-mono) !important; outline: 0 !important; }
 html body .um-vt textarea { width: 100% !important; padding: 12px 14px !important; font-family: var(--um-sans) !important; font-size: 14px !important; }
 html body .um-vt textarea:focus, html body .um-vt input[type="text"]:focus, html body .um-vt select:focus { border-color: rgb(var(--um-c)) !important; box-shadow: 0 0 0 1px rgba(var(--um-c), .45), 0 0 14px rgba(var(--um-c), .25) !important; }
@@ -1935,20 +1941,22 @@ html body form[name="post"] #textarea_content { width: 100% !important; }
 html body form[name="post"] #postingbox fieldset.fields1 > .clear { order: 3 !important; flex: 0 0 100% !important; height: 0 !important; }
 
 /* smilies */
-html body form[name="post"] #smiley-box { order: 2; flex: 0 0 236px; width: 236px; float: none; margin: 0; padding: 0; font: 500 11px/1.8 var(--um-mono); color: var(--um-soft); }
+html body form[name="post"] #smiley-box, html body form[name="post"] #message-box, html body form[name="post"] #textarea_content, html body form[name="post"] #postingbox fieldset.fields1, html body form[name="post"] #postingbox dl, html body form[name="post"] #postingbox dd, html body form[name="post"] #postingbox dt { background: none; border: 0; box-shadow: none; }
+html body form[name="post"] #smiley-box { order: 2 !important; flex: 0 0 236px !important; width: 236px !important; float: none !important; margin: 0 !important; padding: 0 !important; font: 500 11px/1.8 var(--um-mono) !important; color: var(--um-soft) !important; }
 html body form[name="post"] #smileyContainer { margin: 0 0 10px !important; padding: 3px !important; background: linear-gradient(135deg, rgba(var(--um-c), .5), rgba(var(--um-m), .3)) !important; }
 html body form[name="post"] #smileyContainer iframe { display: block !important; width: 100% !important; max-width: 100% !important; border: 0 !important; background: #fff !important; filter: invert(1) hue-rotate(180deg) !important; }
 html body form[name="post"] #smiley-box a { color: #7fe3f2 !important; }
 
 /* editor (sceditor) */
-html body form[name="post"] .sceditor-container { width: 100% !important; max-width: none; border: 1px solid rgba(var(--um-c), .35); border-radius: 0; background: #050a12; box-shadow: 0 0 24px rgba(var(--um-c), .08); }
-html body form[name="post"] .sceditor-toolbar { padding: 6px !important; overflow: hidden !important; background: linear-gradient(180deg, #0b1626, #08111d) !important; border: 0 !important; border-bottom: 1px solid rgba(var(--um-c), .3) !important; }
+html body form[name="post"] .sceditor-container { padding: 0; width: 100% !important; max-width: none; border: 1px solid rgba(var(--um-c), .35); border-radius: 0; background: #050a12; box-shadow: 0 0 24px rgba(var(--um-c), .08); }
+html body form[name="post"] .sceditor-toolbar { display: flex !important; flex-wrap: wrap !important; justify-content: flex-start !important; text-align: left !important; padding: 6px !important; overflow: hidden !important; background: linear-gradient(180deg, #0b1626, #08111d) !important; border: 0 !important; border-bottom: 1px solid rgba(var(--um-c), .3) !important; }
 html body form[name="post"] .sceditor-group { display: inline-flex !important; flex-wrap: wrap !important; gap: 2px !important; margin: 2px 6px 2px 0 !important; padding: 2px !important; background: rgba(255, 255, 255, .03) !important; border: 1px solid rgba(var(--um-c), .16) !important; border-radius: 0 !important; box-shadow: none !important; }
 html body form[name="post"] .sceditor-button { width: 28px !important; height: 26px !important; margin: 0 !important; padding: 0 !important; border: 1px solid transparent !important; border-radius: 0 !important; background: none !important; transition: background .2s, border-color .2s, box-shadow .2s !important; }
 html body form[name="post"] .sceditor-button div { filter: invert(1) hue-rotate(180deg) brightness(1.15) !important; }
 html body form[name="post"] .sceditor-button:hover, html body form[name="post"] .sceditor-button.hover { background: rgba(var(--um-c), .16) !important; border-color: rgb(var(--um-c)) !important; box-shadow: 0 0 10px rgba(var(--um-c), .35) !important; }
 html body form[name="post"] .sceditor-button.disabled { opacity: .35 !important; }
-html body form[name="post"] .sceditor-container textarea { color: #cfe3f1 !important; background: #050a12 !important; border: 0 !important; outline: 0 !important; font: 400 13.5px/1.6 var(--um-mono) !important; }
+html body form[name="post"] .sceditor-container > *:not(.sceditor-toolbar) { background-color: #050a12 !important; border-color: transparent !important; box-shadow: none !important; outline: 0 !important; }
+html body form[name="post"] .sceditor-container textarea { display: block !important; width: 100% !important; min-height: 280px !important; margin: 0 !important; padding: 16px 18px !important; color: #cfe3f1 !important; background: #050a12 !important; border: 0 !important; box-shadow: none !important; outline: 0 !important; font: 400 13.5px/1.6 var(--um-mono) !important; }
 html body form[name="post"] .sceditor-container iframe { background: #fff !important; filter: invert(1) hue-rotate(180deg) !important; }
 html body .sceditor-dropdown { color: #cfe3f1; background: linear-gradient(180deg, #0b1626, #060c16); border: 1px solid rgba(34, 211, 238, .4); border-radius: 0; box-shadow: 0 18px 40px rgba(0, 0, 0, .65); }
 html body .sceditor-dropdown a, html body .sceditor-dropdown label { color: #7fe3f2; }
