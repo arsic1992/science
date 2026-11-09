@@ -1335,7 +1335,7 @@ html #um-nav #notif_list {
 }
 
 /* ==========================================================================
-   Header banner (#page-header)  -  full width, 435px, directly under the nav
+   Header banner (#page-header)  -  full width, 580px, directly under the nav
    ========================================================================== */
 html body #page-header.um-hero {
 	position: relative !important;
@@ -1344,7 +1344,7 @@ html body #page-header.um-hero {
 	float: none !important;
 	width: 100% !important;
 	max-width: none !important;
-	height: 435px !important;
+	height: 580px !important;
 	margin: 0 !important;
 	padding: 0 !important;
 	overflow: hidden !important;
@@ -1381,60 +1381,338 @@ html body #page-header.um-hero .um-hero__img {
 	object-position: center !important;
 }
 
-/* smooth transition into the page: a fade at the bottom, then a glowing line */
-html body #page-header.um-hero::before {
-	content: "";
-	position: absolute;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	z-index: 2;
-	height: 140px;
-	background: linear-gradient(180deg, rgba(4, 7, 13, 0) 0%, rgba(4, 7, 13, .55) 55%, #04070d 100%);
-	pointer-events: none;
-}
+/* transition line: sits just BELOW the image, nothing is drawn over it */
+html body #page-header.um-hero { overflow: visible !important; }
 html body #page-header.um-hero::after {
 	content: "";
 	position: absolute;
 	left: 0;
 	right: 0;
-	bottom: 0;
-	z-index: 3;
+	top: 100%;
 	height: 2px;
 	background: linear-gradient(90deg, transparent, rgba(34, 211, 238, .9) 20%, rgba(232, 121, 249, .9) 80%, transparent);
 	box-shadow: 0 0 14px rgba(34, 211, 238, .6), 0 0 34px rgba(232, 121, 249, .35);
 	pointer-events: none;
 }
-
-/* optional site title / description, if enabled in the admin panel: laid over the fade */
+/* the banner is just the image: title/description text stays out of it */
 html body #page-header.um-hero .um-hero__title,
-html body #page-header.um-hero .um-hero__text {
-	position: absolute !important;
-	left: 0;
-	right: 0;
-	z-index: 4;
-	width: auto !important;
-	height: auto !important;
-	margin: 0 !important;
-	padding: 0 24px !important;
-	text-align: center !important;
-	text-shadow: 0 2px 18px rgba(0, 0, 0, .8);
+html body #page-header.um-hero .um-hero__text { display: none !important; }
+
+/* ==========================================================================
+   topics_list_box  -  topic lists (viewforum, search results ...)
+   ========================================================================== */
+.um-tl, .um-tl * { box-sizing: border-box; }
+.um-tl {
+	--um-c: 34,211,238; --um-m: 232,121,249;
+	--um-ink: #e8f3fb; --um-soft: #7f98ad; --um-mute: #58768b;
+	--um-panel-a: #0a1422; --um-panel-b: #060c16;
+	--um-sans: 'Space Grotesk', system-ui, -apple-system, 'Segoe UI', sans-serif;
+	--um-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Consolas, monospace;
+	--um-i-new: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M4 5h16v11h-8l-5 4v-4H4z' fill='black'/%3E%3C/svg%3E");
+	--um-i-read: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M4.5 5.5h15v10h-7.5l-4.5 3.5v-3.5h-3z' fill='none' stroke='black' stroke-width='2' stroke-linejoin='round'/%3E%3C/svg%3E");
+	--um-i-lock: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='5' y='11' width='14' height='10' rx='1.5' fill='black'/%3E%3Cpath d='M8 11V8a4 4 0 0 1 8 0v3' fill='none' stroke='black' stroke-width='2'/%3E%3C/svg%3E");
+	--um-i-out: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M7 17L17 7M9 7h8v8' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='square'/%3E%3C/svg%3E");
+	--um-i-pin: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M8 3h8l-1.2 6.2L18 12.5V15h-5v6l-1 1-1-1v-6H6v-2.5l3.2-3.3z' fill='black'/%3E%3C/svg%3E");
+	--um-i-ann: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M3 9v6h3l8 4V5L6 9z' fill='black'/%3E%3Cpath d='M17.5 8.5a4.5 4.5 0 0 1 0 7' fill='none' stroke='black' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+	--um-i-hot: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2c.8 4 5.5 5.5 5.5 10.5a5.5 5.5 0 0 1-11 0c0-2.2 1-3.6 2.2-4.8 0 2 .9 3.3 2.1 3.6C10 8.5 10.8 5 12 2z' fill='black'/%3E%3C/svg%3E");
+	--um-i-arrow: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M5 12h13M13 6l6 6-6 6' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='square'/%3E%3C/svg%3E");
+	display: block;
+	clear: both;
+	margin: 0 0 26px;
+	padding: 0;
+	border: 0;
+	border-radius: 0;
+	background: none;
+	box-shadow: none;
+	counter-increment: um-tl;
+	font-family: var(--um-sans);
+	color: var(--um-ink);
 }
-html body #page-header.um-hero .um-hero__title { bottom: 58px; font: 700 28px/1.1 'Space Grotesk', sans-serif; letter-spacing: .22em; text-transform: uppercase; color: #fff !important; }
-html body #page-header.um-hero .um-hero__text { bottom: 26px; font: 500 12px/1.4 'JetBrains Mono', monospace; letter-spacing: .16em; text-transform: uppercase; color: #7fe3f2 !important; }
+.um-tl.um-tl--announce { --um-c: 232,121,249; --um-m: 34,211,238; }
+.um-tl .um-tl__inner { margin: 0; padding: 0; border: 0; background: none; }
+.um-tl .um-corner { display: none; }
+
+/* ---------- header: numbered title + labels ---------- */
+.um-tl .um-tl__head { display: block; margin: 0 0 8px; padding: 0; list-style: none; }
+.um-tl .um-tl__header { display: block; margin: 0; padding: 0; border: 0; background: none; list-style: none; }
+.um-tl .um-tl__header .um-tl__dl {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	min-height: 0;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	background: none;
+}
+.um-tl .um-tl__header .um-tl__dl::before { content: ""; order: 1; flex: 1 1 1px; min-width: 0; }
+.um-tl .um-tl__dl .um-tl__title {
+	order: 0;
+	flex: 0 0 100%;
+	display: flex;
+	align-items: center;
+	gap: 14px;
+	float: none;
+	width: auto;
+	margin: 0 0 8px;
+	padding: 0;
+	border: 0;
+	background: none;
+	text-transform: none;
+}
+.um-tl .um-tl__idx {
+	padding: 3px 8px;
+	font: 700 13px/1.2 var(--um-mono);
+	color: #04070d;
+	background: rgb(var(--um-c));
+	clip-path: polygon(0 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%);
+}
+.um-tl .um-tl__idx::before { content: counter(um-tl, decimal-leading-zero); }
+.um-tl .um-tl__name { font: 700 15px/1.2 var(--um-sans); letter-spacing: .22em; text-transform: uppercase; color: #e8f6ff; }
+.um-tl .um-tl__check { margin: 0; accent-color: rgb(var(--um-c)); }
+.um-tl .um-tl__line { position: relative; flex: 1 1 auto; height: 1px; background: linear-gradient(90deg, rgba(var(--um-c), .6), rgba(var(--um-m), .25), transparent); }
+.um-tl .um-tl__line::after { content: ""; position: absolute; left: 0; top: -2px; width: 5px; height: 5px; background: rgb(var(--um-c)); box-shadow: 0 0 8px rgb(var(--um-c)); }
+
+.um-tl .um-tl__dl .um-tl__stats { order: 2; flex: 0 0 196px; display: flex; padding: 0 10px; }
+.um-tl .um-tl__dl .um-tl__label {
+	float: none;
+	width: auto;
+	margin: 0;
+	padding: 0 !important;
+	border: 0;
+	background: none;
+	font: 500 10px/1 var(--um-mono);
+	letter-spacing: .2em;
+	text-transform: uppercase;
+	color: #4f6c80;
+}
+.um-tl .um-tl__stats .um-tl__label { flex: 1 1 50%; }
+.um-tl .um-tl__dl .um-tl__last { order: 3; flex: 0 0 320px; padding: 0 0 0 23px !important; }
+.um-tl .um-tl__sub { display: block; margin: 12px 0 6px; font: 600 11px/1 var(--um-mono); letter-spacing: .2em; text-transform: uppercase; color: var(--um-mute); }
+
+/* ---------- rows ---------- */
+.um-tl .um-tl__list { display: flex; flex-direction: column; gap: 10px; margin: 0; padding: 0; border: 0; background: none; list-style: none; }
+
+.um-tl .um-tl__list .um-topic {
+	--um-s: 90,115,140;
+	--um-bar: .35;
+	--um-glow: 0px;
+	--um-tint: transparent;
+	--um-lbl: "IDLE";
+	--um-ico: var(--um-i-read);
+	position: relative;
+	display: block;
+	margin: 0;
+	padding: 1px;
+	border: 0;
+	list-style: none;
+	background: linear-gradient(135deg, rgba(var(--um-s), .8), rgba(var(--um-s), .12) 42%, rgba(var(--um-m), .35));
+	clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 16px 100%, 0 calc(100% - 16px));
+}
+/* state comes from the folder image Forumotion writes into the dl style (unread, hot, locked, sticky, announce, moved) */
+.um-tl .um-tl__list .um-topic:has(> .um-topic__dl[style*="unread"]) { --um-s: 34,211,238; --um-bar: .9; --um-glow: 7px; --um-tint: rgba(34,211,238,.09); --um-lbl: "NEW"; --um-ico: var(--um-i-new); }
+.um-tl .um-tl__list .um-topic:has(> .um-topic__dl[style*="hot"]) { --um-s: 251,146,60; --um-lbl: "HOT"; --um-ico: var(--um-i-hot); }
+.um-tl .um-tl__list .um-topic:has(> .um-topic__dl[style*="mine"]) { --um-lbl: "MINE"; }
+.um-tl .um-tl__list .um-topic:has(> .um-topic__dl[style*="sticky"]) { --um-s: 251,191,36; --um-bar: .9; --um-lbl: "PINNED"; --um-ico: var(--um-i-pin); }
+.um-tl .um-tl__list .um-topic:has(> .um-topic__dl[style*="announce"]) { --um-s: 232,121,249; --um-bar: .9; --um-lbl: "NOTICE"; --um-ico: var(--um-i-ann); }
+.um-tl .um-tl__list .um-topic:has(> .um-topic__dl[style*="locked"]) { --um-s: 251,113,133; --um-bar: .9; --um-lbl: "LOCKED"; --um-ico: var(--um-i-lock); }
+.um-tl .um-tl__list .um-topic:has(> .um-topic__dl[style*="moved"]) { --um-s: 167,139,250; --um-lbl: "MOVED"; --um-ico: var(--um-i-out); }
+
+.um-tl .um-tl__list .um-topic .um-topic__dl {
+	display: flex;
+	align-items: stretch;
+	min-height: 86px;
+	margin: 0;
+	padding: 0;
+	float: none;
+	border: 0;
+	background: linear-gradient(90deg, var(--um-tint), transparent 40%), linear-gradient(180deg, var(--um-panel-a), var(--um-panel-b)) !important;
+	clip-path: polygon(0 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 15px 100%, 0 calc(100% - 15px));
+}
+.um-tl .um-tl__list .um-topic .um-topic__dl:hover { background: linear-gradient(90deg, rgba(var(--um-s), .14), transparent 55%), linear-gradient(180deg, var(--um-panel-a), var(--um-panel-b)) !important; }
+
+/* rail */
+.um-tl .um-topic .um-topic__rail {
+	flex: 0 0 82px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 7px;
+	float: none;
+	width: auto;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	border-right: 1px solid rgba(var(--um-s), .18);
+	background: linear-gradient(180deg, rgba(var(--um-s), .10), transparent);
+	box-shadow: inset 3px 0 0 rgba(var(--um-s), var(--um-bar));
+}
+.um-tl .um-topic .um-hex { position: relative; display: block; width: 40px; height: 45px; filter: drop-shadow(0 0 var(--um-glow) rgba(var(--um-s), .9)); }
+.um-tl .um-topic .um-hex::before,
+.um-tl .um-topic .um-hex::after { content: ""; position: absolute; clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%); }
+.um-tl .um-topic .um-hex::before { inset: 0; background: rgb(var(--um-s)); }
+.um-tl .um-topic .um-hex::after { inset: 1.6px; background: linear-gradient(rgba(var(--um-s), .16), rgba(var(--um-s), .16)), #07101b; }
+.um-tl .um-topic .um-hex__ico { position: absolute; inset: 0; z-index: 1; width: 19px; height: 19px; margin: auto; background: rgb(var(--um-s)); -webkit-mask: var(--um-ico) center / contain no-repeat; mask: var(--um-ico) center / contain no-repeat; }
+.um-tl .um-topic .um-topic__state { margin: 0; font: 700 9px/1 var(--um-mono); letter-spacing: .2em; color: rgb(var(--um-s)); }
+.um-tl .um-topic .um-topic__state::after { content: var(--um-lbl); }
+
+/* main */
+.um-tl .um-topic .um-topic__main {
+	flex: 1 1 auto;
+	min-width: 0;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	float: none;
+	width: auto;
+	margin: 0;
+	padding: 14px 22px;
+	border: 0;
+	background: none;
+}
+.um-tl .um-topic .um-topic__main br { display: none; }
+.um-tl .um-topic .um-topic__body { display: flex; flex-direction: column; gap: 6px; margin: 0; padding: 0; font-size: 12px; color: var(--um-soft); }
+.um-tl .um-topic .um-topic__row { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 9px; margin: 0; padding: 0; font-size: 0; }
+.um-tl .um-topic .um-topic__titlebox { display: block; margin: 0; padding: 0; min-width: 0; }
+.um-tl .um-topic .um-topic__heading { margin: 0; padding: 0; border: 0; font: inherit; text-transform: none; letter-spacing: normal; }
+.um-tl .um-topic .um-topic__title { font: 700 18px/1.25 var(--um-sans); letter-spacing: normal; text-transform: none; color: #fff; text-decoration: none; }
+.um-tl .um-topic .um-topic__title:hover { color: rgb(var(--um-s)); }
+/* "Sticky:", "[Poll]" ... */
+.um-tl .um-topic .um-topic__row > strong {
+	padding: 2px 8px;
+	font: 700 10px/1.3 var(--um-mono);
+	letter-spacing: .14em;
+	text-transform: uppercase;
+	color: rgb(var(--um-s));
+	border: 1px solid rgba(var(--um-s), .45);
+	background: rgba(var(--um-s), .08);
+}
+/* the gif icons are replaced by the rail; the "go to newest post" link becomes an arrow chip */
+.um-tl .um-topic .um-topic__row > img { display: none; }
+.um-tl .um-topic .um-topic__row > a:has(> img) { position: relative; display: inline-block; flex: none; width: 22px; height: 22px; border: 1px solid rgba(var(--um-c), .5); background: rgba(var(--um-c), .1); }
+.um-tl .um-topic .um-topic__row > a:has(> img) img { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; }
+.um-tl .um-topic .um-topic__row > a:has(> img)::before { content: ""; position: absolute; inset: 0; margin: auto; width: 12px; height: 12px; background: rgb(var(--um-c)); -webkit-mask: var(--um-i-arrow) center / contain no-repeat; mask: var(--um-i-arrow) center / contain no-repeat; }
+.um-tl .um-topic .um-topic__radio { margin: 0; accent-color: rgb(var(--um-c)); }
+.um-tl .um-topic .um-topic__desc { font: 400 13.5px/1.4 var(--um-sans); color: var(--um-soft); }
+.um-tl .um-topic .um-topic__meta { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 14px; font: 400 11px/1.5 var(--um-mono); color: var(--um-mute); }
+.um-tl .um-topic .um-topic__meta:empty { display: none; }
+.um-tl .um-topic .um-topic__meta a { color: #7fe3f2; text-decoration: none; }
+.um-tl .um-topic .um-topic__meta a:hover { color: #fff; }
+.um-tl .um-topic .um-topic__by { margin: 0; padding: 0; font: inherit; color: var(--um-mute); text-transform: uppercase; letter-spacing: .1em; }
+.um-tl .um-topic .um-topic__by strong { font-weight: 700; text-transform: none; letter-spacing: normal; }
+.um-tl .um-topic .um-topic__pages:empty { display: none; }
+.um-tl .um-topic .um-topic__main [style*="#000000"],
+.um-tl .um-topic .um-last [style*="#000000"],
+.um-tl .um-topic .um-last [style*="#000;"],
+.um-tl .um-topic .um-topic__main [style*="rgb(0, 0, 0)"] { color: #dbe9f4 !important; }
+.um-tl .um-topic .um-topic__main [style*="#000099"],
+.um-tl .um-topic .um-last [style*="#000099"] { color: #7c9cff !important; }
+
+/* stats: two columns, number + label + meter */
+.um-tl .um-topic .um-topic__stats { flex: 0 0 196px; min-width: 0; display: flex; align-items: center; padding: 0 10px; }
+.um-tl .um-topic .um-stat {
+	--um-fill: clamp(6%, calc(log(var(--um-n) + 1) / log(1000) * 100%), 100%);
+	flex: 1 1 50%;
+	min-width: 0;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 6px;
+	float: none;
+	width: auto;
+	margin: 0;
+	padding: 0 !important;
+	border: 0;
+	text-align: left;
+	font: 700 21px/1 var(--um-mono);
+	color: #fff;
+}
+.um-tl .um-topic .um-stat dfn { display: block; position: static; width: auto; height: auto; margin: 0; padding: 0; overflow: visible; clip: auto; visibility: visible; text-indent: 0; opacity: 1; font: 400 9.5px/1 var(--um-mono); font-style: normal; letter-spacing: .2em; text-transform: uppercase; color: var(--um-mute); }
+.um-tl .um-topic .um-stat::after {
+	content: "";
+	width: 64px;
+	height: 3px;
+	background-color: rgba(var(--um-s), .14);
+	background-image: linear-gradient(90deg, rgb(var(--um-s)), rgb(var(--um-m)));
+	background-repeat: no-repeat;
+	background-size: var(--um-fill) 100%;
+}
+
+/* last post */
+.um-tl .um-topic .um-last {
+	position: relative;
+	flex: 0 0 320px;
+	min-width: 0;
+	display: flex;
+	align-items: center;
+	gap: 14px;
+	float: none;
+	width: auto;
+	margin: 0;
+	padding: 0 70px 0 22px;
+	border: 0;
+	border-left: 1px solid rgba(255, 255, 255, .06);
+	background: none;
+	text-align: left;
+}
+.um-tl .um-topic .um-av { flex: 0 0 46px; display: block; width: 46px; height: 51px; margin: 0; padding: 1.5px; background: linear-gradient(160deg, rgb(var(--um-s)), rgb(var(--um-m))); clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%); }
+.um-tl .um-topic .um-av img { display: block; width: 100%; height: 100%; max-width: none !important; max-height: none !important; margin: 0; padding: 0; border: 0; object-fit: cover; background: #000; clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%); }
+.um-tl .um-topic .um-last__wrap { flex: 1 1 auto; min-width: 0; float: none !important; }
+.um-tl .um-topic .um-last__text { display: flex; flex-direction: column; gap: 3px; min-width: 0; font: 400 11px/1.4 var(--um-mono); color: #5f788c; }
+.um-tl .um-topic .um-last__text br { display: none; }
+.um-tl .um-topic .um-last__user { display: flex; align-items: baseline; gap: 6px; font: 500 12.5px/1.4 var(--um-mono); color: rgb(var(--um-c)); }
+.um-tl .um-topic .um-last__user strong { font-weight: 500; }
+.um-tl .um-topic .um-last__user a { color: inherit; text-decoration: none; }
+.um-tl .um-topic .um-last__user a:hover { text-decoration: underline; }
+.um-tl .um-topic .um-last__user dfn { display: none; }
+.um-tl .um-topic .um-last__jump a {
+	position: absolute;
+	right: 20px;
+	top: 50%;
+	display: grid;
+	place-items: center;
+	width: 36px;
+	height: 36px;
+	margin-top: -18px;
+	border: 1px solid rgba(var(--um-s), .55);
+	background: rgba(var(--um-s), .08);
+	clip-path: polygon(0 0, calc(100% - 9px) 0, 100% 9px, 100% 100%, 9px 100%, 0 calc(100% - 9px));
+}
+.um-tl .um-topic .um-last__jump a:hover { background: rgba(var(--um-s), .22); }
+.um-tl .um-topic .um-last__jump a img { display: none; }
+.um-tl .um-topic .um-last__jump a::before { content: ""; width: 15px; height: 15px; background: rgb(var(--um-s)); -webkit-mask: var(--um-i-out) center / contain no-repeat; mask: var(--um-i-out) center / contain no-repeat; }
+.um-tl .um-topic .um-topic__check { align-self: center; margin: 0 14px; accent-color: rgb(var(--um-c)); }
+
+/* empty list */
+.um-tl .um-topic--empty { --um-s: 90,115,140; }
+.um-tl .um-topic--empty .um-topic__dl { min-height: 70px; align-items: center; padding: 0 24px; }
+.um-tl .um-topic .um-topic__none { margin: 0; padding: 0; font: 500 13px/1.4 var(--um-mono); letter-spacing: .08em; color: var(--um-soft); }
+
+@media (max-width: 860px) {
+	.um-tl .um-topic .um-topic__dl { flex-wrap: wrap; }
+	.um-tl .um-topic .um-topic__main { flex: 1 1 calc(100% - 82px); }
+	.um-tl .um-topic .um-topic__stats { flex: 1 1 50%; padding: 12px 18px; border-top: 1px solid rgba(255,255,255,.06); }
+	.um-tl .um-topic .um-last { flex: 1 1 50%; padding: 12px 70px 12px 18px; border-top: 1px solid rgba(255,255,255,.06); }
+	.um-tl .um-tl__stats, .um-tl .um-tl__last { display: none; }
+}
 
 /* ---------- page backdrop (dark) ----------
-   #wrap is the Forumotion page wrapper. If something else is still white,
-   send me its id/class and I'll add it here. */
-body { background: #04070d; }
+   The glow + grid live on <body> and stay fixed while scrolling; #wrap is transparent
+   so it never shows up as a rectangle. */
+html { background: #04070d; }
+body {
+	background:
+		radial-gradient(700px 480px at 0 0, rgba(34,211,238,.14), transparent 70%),
+		radial-gradient(700px 560px at 100% 100%, rgba(232,121,249,.12), transparent 70%),
+		linear-gradient(rgba(34,211,238,.04) 1px, transparent 1px) 0 0 / 40px 40px,
+		linear-gradient(90deg, rgba(34,211,238,.04) 1px, transparent 1px) 0 0 / 40px 40px,
+		#04070d;
+	background-attachment: fixed;
+}
 #wrap {
 	border: 0;
 	box-shadow: none;
 	color: #cfe3f1;
-	background:
-		radial-gradient(600px 400px at 0 0, rgba(34,211,238,.14), transparent 70%),
-		radial-gradient(600px 500px at 100% 100%, rgba(232,121,249,.12), transparent 70%),
-		linear-gradient(rgba(34,211,238,.04) 1px, transparent 1px) 0 0 / 40px 40px,
-		linear-gradient(90deg, rgba(34,211,238,.04) 1px, transparent 1px) 0 0 / 40px 40px,
-		#04070d;
+	background: none;
 }
