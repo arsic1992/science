@@ -1888,6 +1888,91 @@ html body .um-vt .um-path__list a:empty { display: none !important; }
 html body .um-vt .um-post__top a + a { margin-left: 14px !important; }
 html body .um-vt .um-vote { margin-top: 4px !important; }
 
+/* ==========================================================================
+   posting page (posting_body): reply / new topic form, editor, smilies
+   ========================================================================== */
+/* tokens */
+form[name="post"] {
+	--um-c: 34,211,238; --um-m: 232,121,249;
+	--um-soft: #7f98ad; --um-mute: #58768b;
+	--um-panel-a: #0a1422; --um-panel-b: #060c16;
+	--um-sans: 'Space Grotesk', system-ui, -apple-system, 'Segoe UI', sans-serif;
+	--um-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Consolas, monospace;
+	display: block;
+	color: #b8cad9;
+	font: 400 14px/1.6 var(--um-sans);
+}
+form[name="post"], form[name="post"] *, form[name="post"] *::before, form[name="post"] *::after { box-sizing: border-box; }
+html body form[name="post"] .corners-top, html body form[name="post"] .corners-bottom { display: none !important; }
+html body form[name="post"] a { color: #7fe3f2 !important; text-decoration: none !important; }
+html body form[name="post"] a:hover { text-decoration: underline !important; }
+html body form[name="post"] .clear { clear: both !important; }
+html body form[name="post"] .page-title { display: flex !important; align-items: center !important; gap: 14px !important; margin: 10px 0 18px !important; padding: 0 !important; border: 0 !important; background: none !important; font: 700 28px/1.2 var(--um-sans) !important; color: #fff !important; }
+html body form[name="post"] .page-title::before { content: "" !important; flex: none !important; width: 10px !important; height: 28px !important; background: linear-gradient(180deg, rgb(var(--um-c)), rgb(var(--um-m))) !important; box-shadow: 0 0 14px rgba(var(--um-c), .6) !important; clip-path: polygon(0 0, 100% 20%, 100% 100%, 0 80%) !important; }
+
+/* panels */
+html body form[name="post"] .panel { position: relative; display: block; margin: 0 0 18px; padding: 1px; color: #b8cad9; border: 0; border-radius: 0; box-shadow: none; background: linear-gradient(135deg, rgba(var(--um-c), .65), rgba(var(--um-c), .08) 42%, rgba(var(--um-m), .38)); clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 20px 100%, 0 calc(100% - 20px)); }
+html body form[name="post"] .panel > .inner { margin: 0 !important; padding: 20px 26px 22px !important; border: 0 !important; border-radius: 0 !important; background: linear-gradient(180deg, var(--um-panel-a), var(--um-panel-b)) !important; clip-path: polygon(0 0, calc(100% - 19px) 0, 100% 19px, 100% 100%, 19px 100%, 0 calc(100% - 19px)) !important; }
+html body form[name="post"] .panel.row2 > .inner { padding: 16px 26px !important; }
+html body form[name="post"] .h3 { display: flex !important; align-items: center !important; gap: 14px !important; margin: 0 0 16px !important; padding: 0 !important; border: 0 !important; background: none !important; font: 700 13px/1.2 var(--um-sans) !important; letter-spacing: .22em !important; text-transform: uppercase !important; color: #e8f6ff !important; }
+html body form[name="post"] .h3::before { content: "" !important; flex: none !important; width: 8px !important; height: 8px !important; background: rgb(var(--um-c)) !important; box-shadow: 0 0 8px rgb(var(--um-c)) !important; }
+html body form[name="post"] .h3::after { content: "" !important; flex: 1 1 auto !important; height: 1px !important; background: linear-gradient(90deg, rgba(var(--um-c), .5), rgba(var(--um-m), .2), transparent) !important; }
+html body form[name="post"] > .h3 { margin-top: 26px !important; }
+
+/* fields */
+html body form[name="post"] fieldset { margin: 0; padding: 0; border: 0; min-width: 0 !important; }
+html body form[name="post"] #postingbox fieldset.fields1 { display: flex !important; flex-wrap: wrap !important; align-items: flex-start !important; gap: 0 24px !important; }
+html body form[name="post"] #postingbox fieldset.fields1 > dl { flex: 0 0 100% !important; display: flex !important; align-items: center !important; gap: 16px !important; margin: 0 0 18px !important; padding: 0 !important; border: 0 !important; }
+html body form[name="post"] #postingbox fieldset.fields1 > dl > dt { flex: 0 0 120px !important; width: auto !important; margin: 0 !important; padding: 0 !important; float: none !important; }
+html body form[name="post"] #postingbox fieldset.fields1 > dl > dt label { font: 600 11px/1.2 var(--um-mono) !important; letter-spacing: .16em !important; text-transform: uppercase !important; color: #7fe3f2 !important; }
+html body form[name="post"] #postingbox fieldset.fields1 > dl > dd { flex: 1 1 0 !important; margin: 0 !important; padding: 0 !important; float: none !important; }
+html body form[name="post"] .inputbox, html body form[name="post"] input[type="text"], html body form[name="post"] select { width: 100% !important; max-width: 560px !important; height: 38px !important; padding: 0 12px !important; font: 500 13px/1 var(--um-mono) !important; color: #fff !important; background: #07101b !important; border: 1px solid rgba(var(--um-c), .3) !important; border-radius: 0 !important; outline: 0 !important; box-shadow: inset 0 0 12px rgba(var(--um-c), .06) !important; }
+html body form[name="post"] .inputbox:focus, html body form[name="post"] input[type="text"]:focus { border-color: rgb(var(--um-c)) !important; box-shadow: 0 0 0 1px rgba(var(--um-c), .5), 0 0 14px rgba(var(--um-c), .3) !important; }
+html body form[name="post"] #message-box { order: 1 !important; flex: 1 1 0 !important; min-width: 0 !important; width: auto !important; float: none !important; margin: 0 !important; padding: 0 !important; }
+html body form[name="post"] #message-box > br { display: none !important; }
+html body form[name="post"] #message-box .left-box { float: none !important; margin: 0 0 8px !important; font: 500 11px/1.4 var(--um-mono) !important; color: var(--um-soft) !important; }
+html body form[name="post"] #textarea_content { width: 100% !important; }
+html body form[name="post"] #postingbox fieldset.fields1 > .clear { order: 3 !important; flex: 0 0 100% !important; height: 0 !important; }
+
+/* smilies */
+html body form[name="post"] #smiley-box { order: 2; flex: 0 0 236px; width: 236px; float: none; margin: 0; padding: 0; font: 500 11px/1.8 var(--um-mono); color: var(--um-soft); }
+html body form[name="post"] #smileyContainer { margin: 0 0 10px !important; padding: 3px !important; background: linear-gradient(135deg, rgba(var(--um-c), .5), rgba(var(--um-m), .3)) !important; }
+html body form[name="post"] #smileyContainer iframe { display: block !important; width: 100% !important; max-width: 100% !important; border: 0 !important; background: #fff !important; filter: invert(1) hue-rotate(180deg) !important; }
+html body form[name="post"] #smiley-box a { color: #7fe3f2 !important; }
+
+/* editor (sceditor) */
+html body form[name="post"] .sceditor-container { width: 100% !important; max-width: none; border: 1px solid rgba(var(--um-c), .35); border-radius: 0; background: #050a12; box-shadow: 0 0 24px rgba(var(--um-c), .08); }
+html body form[name="post"] .sceditor-toolbar { padding: 6px !important; overflow: hidden !important; background: linear-gradient(180deg, #0b1626, #08111d) !important; border: 0 !important; border-bottom: 1px solid rgba(var(--um-c), .3) !important; }
+html body form[name="post"] .sceditor-group { display: inline-flex !important; flex-wrap: wrap !important; gap: 2px !important; margin: 2px 6px 2px 0 !important; padding: 2px !important; background: rgba(255, 255, 255, .03) !important; border: 1px solid rgba(var(--um-c), .16) !important; border-radius: 0 !important; box-shadow: none !important; }
+html body form[name="post"] .sceditor-button { width: 28px !important; height: 26px !important; margin: 0 !important; padding: 0 !important; border: 1px solid transparent !important; border-radius: 0 !important; background: none !important; transition: background .2s, border-color .2s, box-shadow .2s !important; }
+html body form[name="post"] .sceditor-button div { filter: invert(1) hue-rotate(180deg) brightness(1.15) !important; }
+html body form[name="post"] .sceditor-button:hover, html body form[name="post"] .sceditor-button.hover { background: rgba(var(--um-c), .16) !important; border-color: rgb(var(--um-c)) !important; box-shadow: 0 0 10px rgba(var(--um-c), .35) !important; }
+html body form[name="post"] .sceditor-button.disabled { opacity: .35 !important; }
+html body form[name="post"] .sceditor-container textarea { color: #cfe3f1 !important; background: #050a12 !important; border: 0 !important; outline: 0 !important; font: 400 13.5px/1.6 var(--um-mono) !important; }
+html body form[name="post"] .sceditor-container iframe { background: #fff !important; filter: invert(1) hue-rotate(180deg) !important; }
+html body .sceditor-dropdown { color: #cfe3f1; background: linear-gradient(180deg, #0b1626, #060c16); border: 1px solid rgba(34, 211, 238, .4); border-radius: 0; box-shadow: 0 18px 40px rgba(0, 0, 0, .65); }
+html body .sceditor-dropdown a, html body .sceditor-dropdown label { color: #7fe3f2; }
+html body .sceditor-dropdown input[type="text"], html body .sceditor-dropdown textarea { color: #fff; background: #07101b; border: 1px solid rgba(34, 211, 238, .3); }
+
+/* submit + options */
+html body form[name="post"] fieldset.submit-buttons { display: flex; justify-content: center; align-items: center; gap: 14px; margin: 0; font-size: 0; }
+html body form[name="post"] input[type="submit"], html body form[name="post"] input.button1, html body form[name="post"] input.button2 { height: 38px !important; padding: 0 28px !important; font: 700 12px/1 var(--um-mono) !important; letter-spacing: .18em !important; text-transform: uppercase !important; border: 0 !important; border-radius: 0 !important; cursor: pointer !important; clip-path: polygon(0 0, calc(100% - 9px) 0, 100% 9px, 100% 100%, 9px 100%, 0 calc(100% - 9px)) !important; transition: background .2s, color .2s !important; }
+html body form[name="post"] input.button1 { color: #04070d !important; background: rgb(var(--um-c)) !important; box-shadow: 0 0 18px rgba(var(--um-c), .35) !important; }
+html body form[name="post"] input.button1:hover { background: #fff !important; }
+html body form[name="post"] input.button2 { color: rgb(var(--um-c)) !important; background: linear-gradient(rgba(var(--um-c), .12), rgba(var(--um-c), .12)), #07101b !important; }
+html body form[name="post"] input.button2:hover { color: #fff !important; background: rgba(var(--um-c), .3) !important; }
+html body form[name="post"] .panel.row3 > .inner { padding: 16px 26px !important; }
+html body form[name="post"] .panel.row3 fieldset { display: flex !important; flex-direction: column !important; align-items: flex-start !important; gap: 4px !important; }
+html body form[name="post"] .panel.row3 fieldset br { display: none !important; }
+html body form[name="post"] .panel.row3 fieldset label { display: inline-flex !important; align-items: center !important; gap: 10px !important; margin: 3px 0 !important; font: 500 12px/1.5 var(--um-mono) !important; letter-spacing: .04em !important; color: #9fb4c6 !important; cursor: pointer !important; }
+html body form[name="post"] .panel.row3 fieldset label:hover { color: #fff !important; }
+html body form[name="post"] input[type="checkbox"], html body form[name="post"] input[type="radio"] { width: 16px !important; height: 16px !important; margin: 0 !important; accent-color: rgb(34, 211, 238) !important; }
+html body form[name="post"] [style*="#000000"], html body form[name="post"] [style*="#000;"] { color: #dbe9f4 !important; }
+@media (max-width: 900px) {
+	html body form[name="post"] #postingbox fieldset.fields1 { display: block !important; }
+	html body form[name="post"] #smiley-box { width: 100% !important; margin-top: 14px !important; }
+}
+
 /* ---------- page backdrop (dark) ----------
    The glow + grid live on <body> and stay fixed while scrolling; #wrap is transparent
    so it never shows up as a rectangle. */
